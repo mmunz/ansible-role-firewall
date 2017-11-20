@@ -7,7 +7,6 @@ galaxy_info:
   platforms:
   - name: Debian
     versions:
-    versions:
     - wheezy
     - jessie
     - stretch
