@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Manuel Munz
+  description: Setup firewall using iptables-persistent
+  company: comuno.net
+  license: BSD
+  min_ansible_version: 2.2
+  platforms:
+  - name: Debian
+    versions:
+    versions:
+    - wheezy
+    - jessie
+    - stretch
+  
+  galaxy_tags:
+    - iptables
+    - iptables-persistent
+    - security
+    - debian

@@ -1,0 +1,68 @@
+# {{ ansible_managed }}
+### Chains and Policies
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:input_rules - [0:0]
+:input_drop_silent - [0:0]
+### Rules
+-A INPUT -i lo -j ACCEPT
+{% if firewall4_input_invalid_drop %}
+{% if firewall4_input_invalid_drop_log %}
+-A INPUT -m state --state INVALID -j LOG --log-level 6 --log-prefix "DROP INVALID INPUT "
+{% endif %}
+-A INPUT -m state --state INVALID -j DROP
+{% endif %}
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p tcp -m tcp ! --tcp-option 2 --tcp-flags SYN SYN -j DROP
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -j input_rules
+-A INPUT -j input_drop_silent
+# silently drop some broadcasts
+{% for rule in firewall4_input_drop_silent_rules %}
+-A input_drop_silent {{ rule }}
+{% endfor %}
+-A INPUT -j LOG --log-level 4 --log-prefix "REJECT BLOCKED INPUT "
+-A INPUT -p tcp -j REJECT --reject-with tcp-reset
+-A INPUT -j REJECT --reject-with icmp-port-unreachable
+-A OUTPUT -o lo -j ACCEPT
+{% if firewall4_output_invalid_drop %}
+{% if firewall4_output_invalid_drop_log %}
+-A OUTPUT -m state --state INVALID -j LOG --log-level 6 --log-prefix "REJECT INVALID OUTPUT "
+{% endif %}
+-A OUTPUT -m state --state INVALID -j REJECT --reject-with icmp-port-unreachable
+{% endif %}
+# Input rules
+{% for rule in firewall4_input_rules %}
+-A input_rules {{ rule }}
+{% endfor %}
+# Forward rules
+{% for rule in firewall4_forward_rules %}
+-A FORWARD {{ rule }}
+{% endfor %}
+COMMIT
+### Mangle table
+*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
+### NAT table
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+{% for rule in firewall4_nat_prerouting_rules %}
+-A PREROUTING {{ rule }}
+{% endfor %}
+COMMIT
+### Raw table
+*raw
+:PREROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+

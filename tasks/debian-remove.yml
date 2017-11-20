@@ -1,0 +1,31 @@
+---
+- name: check if /etc/iptables/rules.v4 exists
+  stat: path="/etc/iptables/rules.v4"
+  register: firewall_v4_conf
+- name: check if /etc/iptables/rules.v4 was created by ansible
+  when: firewall_v4_conf.stat.exists
+  shell: grep -q '^# Ansible managed:' /etc/iptables/rules.v4
+  always_run: True
+  failed_when: false
+  changed_when: false
+  register: firewall_remove_v4
+- name: remove v4 firewall configuration
+  become: yes
+  file: name="/etc/iptables/rules.v4" state=absent
+  when: not firewall4_enabled and firewall_v4_conf.stat.exists and firewall_remove_v4.rc == 0
+  notify: restart firewall
+- name: check if /etc/iptables/rules.v6 exists
+  stat: path="/etc/iptables/rules.v6"
+  register: firewall_v6_conf
+- name: check if /etc/iptables/rules.v6 was created by ansible
+  when: firewall_v6_conf.stat.exists
+  shell: grep -q '^# Ansible managed:' /etc/iptables/rules.v6
+  always_run: True
+  failed_when: false
+  changed_when: false
+  register: firewall_remove_v6
+- name: remove v6 firewall configuration
+  become: yes
+  file: name="/etc/iptables/rules.v6" state=absent
+  when: not firewall6_enabled and firewall_v6_conf.stat.exists and firewall_remove_v6.rc == 0
+  notify: restart firewall

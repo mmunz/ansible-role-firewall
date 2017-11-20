@@ -1,0 +1,5 @@
+---
+# handlers file for c1.firewall
+- name: restart firewall
+  shell: "/etc/init.d/netfilter-persistent flush; /etc/init.d/netfilter-persistent restart"
+

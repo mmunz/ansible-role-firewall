@@ -1,0 +1,47 @@
+---
+# defaults file for c1.firewall
+
+########
+# IPv4 #
+########
+
+firewall4_enabled: no
+
+firewall4_input_invalid_drop: yes
+firewall4_input_invalid_drop_log: yes
+firewall4_input_rules:
+  - '-p tcp --dport 22 -j ACCEPT'
+  - '-p udp --dport 68 -j ACCEPT'
+firewall4_input_drop_silent_rules:
+  - '-m pkttype --pkt-type multicast -j DROP'
+  - '-m pkttype --pkt-type broadcast -j DROP'
+  
+firewall4_output_invalid_drop: yes
+firewall4_output_invalid_drop_log: yes
+
+firewall4_forward_rules:
+    - '-j REJECT'
+
+firewall4_nat_prerouting_rules: []
+
+########
+# IPv6 #
+########
+
+firewall6_enabled: no
+
+firewall6_input_invalid_drop: yes
+firewall6_input_invalid_drop_log: yes
+firewall6_input_rules:
+  - '-p tcp --dport 22 -j ACCEPT'
+  - '-p udp --dport 68 -j ACCEPT'
+firewall6_input_drop_silent_rules:
+  - '-m pkttype --pkt-type multicast -j DROP'
+  - '-m pkttype --pkt-type broadcast -j DROP'
+  
+firewall6_output_invalid_drop: yes
+firewall6_output_invalid_drop_log: yes
+
+firewall6_forward_rules:
+    - '-j REJECT'
+

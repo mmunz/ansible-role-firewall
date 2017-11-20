@@ -1,0 +1,26 @@
+- name: install iptables and iptables-persistent packages
+  become: yes
+  apt: name="{{ item }}" state="present"
+  with_items:
+    - iptables
+    - iptables-persistent
+- name: create /etc/iptables/rules.v4
+  become: yes
+  template:
+    src: "rules.v4.j2"
+    dest: "/etc/iptables/rules.v4"
+    owner: root
+    group: root
+    mode: 0600
+    validate: 'iptables-restore --test %s'
+  notify: restart firewall
+- name: create /etc/iptables/rules.v6
+  become: yes
+  template:
+    src: "rules.v6.j2"
+    dest: "/etc/iptables/rules.v6"
+    owner: root
+    group: root
+    mode: 0600
+    validate: 'ip6tables-restore --test %s'
+  notify: restart firewall

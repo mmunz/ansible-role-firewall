@@ -1,0 +1,8 @@
+---
+# tasks file for c1.firewall
+- include: debian.yml
+  when: firewall4_enabled or firewall6_enabled
+  tags: [firewall]
+- include: debian-remove.yml
+  when: not (firewall4_enabled and firewall6_enabled)
+  tags: [firewall]
