@@ -51,11 +51,11 @@ COMMIT
 COMMIT
 ### NAT table
 # If you want to enable this, add a check if the running kernel supports nat.
-#*nat
-#:PREROUTING ACCEPT [0:0]
-#:INPUT ACCEPT [0:0]
-#:OUTPUT ACCEPT [0:0]
-#:POSTROUTING ACCEPT [0:0]
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
 {% for rule in firewall6_nat_prerouting_rules %}
 -A PREROUTING {{ rule }}
 {% endfor %}
