@@ -5,7 +5,7 @@
 - name: check if /etc/iptables/rules.v4 was created by ansible
   when: firewall_v4_conf.stat.exists
   shell: grep -q '^# Ansible managed:' /etc/iptables/rules.v4
-  always_run: True
+  check_mode: no
   failed_when: false
   changed_when: false
   register: firewall_remove_v4
@@ -20,7 +20,7 @@
 - name: check if /etc/iptables/rules.v6 was created by ansible
   when: firewall_v6_conf.stat.exists
   shell: grep -q '^# Ansible managed:' /etc/iptables/rules.v6
-  always_run: True
+  check_mode: no
   failed_when: false
   changed_when: false
   register: firewall_remove_v6
