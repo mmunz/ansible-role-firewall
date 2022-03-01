@@ -56,6 +56,12 @@ COMMIT
 #:INPUT ACCEPT [0:0]
 #:OUTPUT ACCEPT [0:0]
 #:POSTROUTING ACCEPT [0:0]
+{% for rule in firewall6_nat_prerouting_rules %}
+-A PREROUTING {{ rule }}
+{% endfor %}
+{% for rule in firewall6_nat_postrouting_rules %}
+-A POSTROUTING {{ rule }}
+{% endfor %}
 #COMMIT
 ### Raw table
 *raw

@@ -23,6 +23,7 @@ firewall4_forward_rules:
     - '-j REJECT'
 
 firewall4_nat_prerouting_rules: []
+firewall4_nat_postrouting_rules: []
 
 ########
 # IPv6 #
@@ -45,3 +46,5 @@ firewall6_output_invalid_drop_log: yes
 firewall6_forward_rules:
     - '-j REJECT'
 
+firewall6_nat_prerouting_rules: []
+firewall6_nat_postrouting_rules: []

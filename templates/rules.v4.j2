@@ -59,6 +59,9 @@ COMMIT
 {% for rule in firewall4_nat_prerouting_rules %}
 -A PREROUTING {{ rule }}
 {% endfor %}
+{% for rule in firewall4_nat_postrouting_rules %}
+-A POSTROUTING {{ rule }}
+{% endfor %}
 COMMIT
 ### Raw table
 *raw
