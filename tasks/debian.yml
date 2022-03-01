@@ -1,6 +1,6 @@
 - name: install iptables and iptables-persistent packages
   become: yes
-  apt: name="{{ item }}" state="present"
+  apt:
     name: [ 'iptables', 'iptables-persistent' ]
     state: "present"
 - name: create /etc/iptables/rules.v4
