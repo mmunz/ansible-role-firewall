@@ -62,7 +62,7 @@ COMMIT
 {% for rule in firewall6_nat_postrouting_rules %}
 -A POSTROUTING {{ rule }}
 {% endfor %}
-#COMMIT
+COMMIT
 ### Raw table
 *raw
 :PREROUTING ACCEPT [0:0]
